@@ -1,73 +1,84 @@
-# React + TypeScript + Vite
+# Productivity Hub (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modular productivity app bringing tasks, notes, habits, calendar, bookmarks, and universal search into one workspace. This repository contains the React + TypeScript frontend powered by Vite.
 
-Currently, two official plugins are available:
+## Key Features (MVP scope)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Tasks: list/Kanban views, priorities, labels, due dates, keyboard-friendly edits
+- Notes: rich text with Markdown shortcuts (TipTap-ready), tags, attachments (future)
+- Habits & Focus: Pomodoro sessions and streaks (planned)
+- Calendar: due-date calendar view, ICS import/export (planned)
+- Bookmarks/Reading list: save URLs, read-later queue (planned)
+- Universal Search: instant search with filters; Atlas Search integration (planned)
+- Polished UX: dark/light theme, a11y (WCAG AA), responsive layout
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19 + TypeScript
+- Vite 7 for dev/build
+- State: TanStack Query (server state), lightweight local state (Zustand optional)
+- Testing: Vitest + Testing Library
+- Lint/Format: ESLint 9, Prettier 3
+- Styling: Tailwind CSS (optional; not yet added)
+- PWA (planned): Service worker + IndexedDB for offline cache
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Prerequisites: Node 18+ and npm (or pnpm/yarn)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Install dependencies:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```powershell
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Run in development:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```powershell
+npm run dev
 ```
+
+Type-check, lint, and build:
+
+```powershell
+# Type-check only
+npx tsc -b
+
+# Lint
+npm run lint
+
+# Production build
+npm run build
+
+# Preview build
+npm run preview
+```
+
+## Scripts
+
+- `npm run dev` — start Vite dev server
+- `npm run test` — run unit tests with Vitest
+- `npm run lint` — run ESLint
+- `npm run lint:fix` — auto-fix lint issues
+- `npm run build` — type-check and build for production
+- `npm run preview` — preview built app
+
+## Quality Gates
+
+- Build: PASS when `npm run build` succeeds
+- Lint/Typecheck: PASS when ESLint reports no errors and `npx tsc -b` has no errors
+- Tests: PASS when `npm run test` is green
+
+## Roadmap (high level)
+
+1. Core tasks + notes CRUD, Kanban view, basic search
+2. Rich text editor (TipTap), file uploads
+3. Universal search (Atlas Search), tags/filters, CSV import/export
+4. Real-time presence/comments, activity feed, notifications
+5. PWA offline mode, theming, accessibility polish
+6. Integrations (Google Calendar), Stripe subscriptions
+7. AI features (summaries, semantic search)
+
+## License
+
+MIT
