@@ -9,5 +9,5 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './setupTests.ts',
   },
-  base: './productivity-hub-frontend/',
+  base: '/productivity-hub-frontend/',
 });
