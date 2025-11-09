@@ -19,7 +19,7 @@ A modular productivity app bringing tasks, notes, habits, calendar, bookmarks, a
 - State: TanStack Query (server state), lightweight local state (Zustand optional)
 - Testing: Vitest + Testing Library
 - Lint/Format: ESLint 9, Prettier 3
-- Styling: Tailwind CSS (optional; not yet added)
+- Styling: Tailwind CSS (custom theme, dark/light, forms & typography plugins)
 - PWA (planned): Service worker + IndexedDB for offline cache
 
 ## Getting Started
@@ -78,6 +78,50 @@ npm run preview
 5. PWA offline mode, theming, accessibility polish
 6. Integrations (Google Calendar), Stripe subscriptions
 7. AI features (summaries, semantic search)
+
+## Authentication Flow
+
+Implemented full token-based auth with refresh flow.
+
+Endpoints (frontend contracts):
+
+- `POST /auth/signup` — create account (expects firstName, lastName, email, password)
+- `POST /auth/signin` — obtain access + refresh tokens (email, password)
+- `POST /auth/refresh` — refresh access token (body carries refreshToken)
+- `GET /auth/me` — current user profile (requires Authorization header)
+- `POST /auth/logout` — invalidate refresh token (body optionally includes refreshToken)
+- `POST /auth/forgot-password` — request password reset link (email). Response is generic to avoid enumeration.
+- `POST /auth/reset-password` — reset password with `{ token, password }` payload.
+
+Frontend specifics:
+
+- Axios instance automatically attaches access token and attempts refresh on 401.
+- Refresh uses a bare axios call to avoid interceptor recursion.
+- Tokens stored in memory and localStorage; subscribe for changes.
+- Auto refresh scheduled ~30s before expiry (based on JWT exp decoding logic—implementation in `authStore`).
+- Rate-limit /429 handling surfaces `retryAfterSeconds` metadata for future UX.
+- Forgot/reset password pages intentionally provide generic success messaging.
+
+Pages:
+
+- `SignIn` — email/password login, show/hide password, validation.
+- `SignUp` — account creation with password complexity + confirmation.
+- `ForgotPassword` — request reset link form.
+- `ResetPassword` — set new password with complexity + confirmation; token read from query string.
+- `Profile` — basic user data + logout.
+
+UX details:
+
+- Toast notifications for success/failure (react-hot-toast).
+- Loading spinners on form submits.
+- Accessible labels, aria-invalid, and aria-busy states.
+- Dark/light/system theme toggle persists preference.
+
+### Next Auth Improvements
+
+- Add protected route wrappers for tasks/notes when those features go live.
+- Centralize error code → human message mapping.
+- Enhance a11y (focus trapping in dropdowns, keyboard shortcuts).
 
 ## License
 
